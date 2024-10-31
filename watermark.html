@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 5em;
+            color: rgba(150, 150, 150, 0.3);
+            z-index: -1;
+            pointer-events: none;
+            text-align: center;
+            width: 100%;
+        }
+        .invoice-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header, .footer {
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .company-info, .billing-info, .invoice-details {
+            margin-bottom: 20px;
+        }
+        .company-info, .billing-info {
+            display: inline-block;
+            width: 45%;
+            vertical-align: top;
+        }
+        .invoice-details {
+            text-align: right;
+        }
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .item-table th, .item-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .item-table th {
+            background-color: #f4f4f4;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark">NOT AN INVOICE</div>
+
+    <div class="invoice-container">
+        <!-- Invoice Header -->
+        <div class="header">
+            <h1>INVOICE</h1>
+            <p>{{ invoice_date }}</p>
+        </div>
+
+        <!-- Company Information -->
+        <div class="company-info">
+            <h2>Company Name</h2>
+            <p>
+                1234 Street Rd.<br>
+                City, State, ZIP<br>
+                Phone: (555) 555-5555<br>
+                Email: company@example.com
+            </p>
+        </div>
+
+        <!-- Billing Information -->
+        <div class="billing-info">
+            <h3>Billed To:</h3>
+            <p>
+                {{ client_name }}<br>
+                {{ client_address }}<br>
+                {{ client_city }}, {{ client_state }} {{ client_zip }}<br>
+                Email: {{ client_email }}
+            </p>
+        </div>
+
+        <!-- Invoice Details -->
+        <div class="invoice-details">
+            <p>Invoice #: {{ invoice_number }}</p>
+            <p>Due Date: {{ due_date }}</p>
+        </div>
+
+        <!-- Itemized Table -->
+        <table class="item-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.unit_price }}</td>
+                    <td>{{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Total Amount -->
+        <div class="total">
+            <p>Subtotal: {{ subtotal }}</p>
+            <p>Tax: {{ tax }}</p>
+            <p>Total: {{ total }}</p>
+        </div>
+    </div>
+</body>
+</html>
